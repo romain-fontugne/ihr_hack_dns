@@ -12,9 +12,10 @@ import ip2asn
 i2a = ip2asn.ip2asn('../ip2asn/db/rib.20200601.pickle.bz2')
 
 builtin_msmid = [30001, 30002]
-fname = 'data/dns-2020-05-29T1300.bz2'
+fname = sys.argv[1]
 
-output_fname = 'data/builtin_results_2020-05-29T1300.json'
+date = fname.partition('-')[2].rpartition('.')[0]
+output_fname = f'data/builtin_results_{date}.json'
 output = []
 
 with bz2.open(fname, 'rb') as fp:
