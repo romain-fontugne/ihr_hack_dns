@@ -22,17 +22,14 @@ with bz2.open(fname, 'rb') as fp:
 
         line_json = json.loads(line)
         result = DnsResult(line_json)
-        # Look only at selected measurements
-        if result.measurement_id not in builtin_msmid:
-            continue
 
-        probe_id = result.probe_id
         for response in result.responses:
             # Skip if something's wrong
             if(response.is_error or response.is_malformed 
                     or not response.destination_address or not response.abuf):
                 continue
 
+            # Retrieve ASNs
             dstip = response.destination_address
             if line_json['from']:
                 srcip = line_json['from']
@@ -40,24 +37,22 @@ with bz2.open(fname, 'rb') as fp:
                 srcip = response.source_address
             dstasn = i2a.ip2asn(dstip)
             srcasn = i2a.ip2asn(srcip)
-            protocol = response.protocol
-            resp_time = response.response_time
 
+            # Keep each answer
             for answer in response.abuf.answers:
                 if answer.is_error or answer.is_malformed or answer.type not in ['A','AAAA']:
                     continue
-                name = answer.name
-                resolution = answer.address
                 row = { 
+                        'msmid': result.measurement_id,
                         'srcip': srcip,
                         'dstip': dstip,
                         'srcasn': srcasn,
                         'dstasn': dstasn,
-                        'proto': protocol,
-                        'resp_time': resp_time,
-                        'name': name,
-                        'resol_ip': resolution,
-                        'probe_id': probe_id
+                        'proto': response.protocol,
+                        'resp_time': response.response_time,
+                        'name': answer.name,
+                        'resol_ip': answer.address,
+                        'probe_id': result.probe_id
                     }
 
                 output.append(row)
