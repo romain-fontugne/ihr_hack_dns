@@ -1,8 +1,12 @@
 # ihr_hack_dns
-## Discoveries:
 
+## How to use this code
+- download a dns dump from: https://data-store.ripe.net/datasets/atlas-daily-dumps/
+- parse it: python src/parse_dump.py data/dump_file.bz2
+- plot results for an AS (e.g. AS7922): python src/plot.py data/parsed_results_2020-06-01T1500.json 7922
+- plot will appear in the fig directory
 
-### Queried domains
+## Queried domains in builtin measurement (30002)
 73 queried domains with different upper/lower casing.
 
 ['google.co.in.', 'wikipedia.org.', 'amazon.com.', 'tmall.com.',
@@ -31,6 +35,6 @@
     - querytime
     - ttl
     - error
-- [ ] plot data per ASN
-- [ ] plot data per resolver
+- [x] plot data per ASN
+- [x] plot data per resolver
 - [ ] compare ipv6, ipv4

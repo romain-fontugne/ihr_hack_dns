@@ -66,6 +66,7 @@ for measurement_id in ['popular', 'all']:
                 [asn_names[asn]]+list(dns_names.values()), 
                 rotation=45)
         plt.title(f'{asn_names[asn]}, IPv{ipv}, {measurement_id} domains')
+        plt.ylabel('Response time (ms)')
         plt.grid(alpha=.3)
         plt.tight_layout()
         plt.savefig(f'fig/AS{asn}_{measurement_id}_ipv{ipv}.pdf')
