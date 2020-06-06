@@ -15,7 +15,7 @@ builtin_msmid = [30001, 30002]
 fname = sys.argv[1]
 
 date = fname.partition('-')[2].rpartition('.')[0]
-output_fname = f'data/builtin_results_{date}.json'
+output_fname = f'data/parsed_results_{date}.json'
 output = []
 
 with bz2.open(fname, 'rb') as fp:
@@ -53,7 +53,8 @@ with bz2.open(fname, 'rb') as fp:
                         'resp_time': response.response_time,
                         'name': answer.name,
                         'resol_ip': answer.address,
-                        'probe_id': result.probe_id
+                        'probe_id': result.probe_id,
+                        'type': answer.type
                     }
 
                 output.append(row)
